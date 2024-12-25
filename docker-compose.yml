@@ -1,0 +1,29 @@
+version: '3'
+services:
+ eurekaserver:
+    image: eureka-server:latest
+    build:
+      context: ./eurekaserver
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
+  teammanagementservice:
+    image: teammanagementservice:latest
+    build:
+      context: ./teammanagementservice
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+
+springsecuritytest:
+    image: springsecuritytest:latest
+    build:
+      context: ./springsecuritytest
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
